@@ -34,7 +34,7 @@ def plot_all_experiments(log_folder, env_name):
     plt.title(name)
     plt.fill_between(x, (mean-ci), (mean+ci), color='blue', alpha=0.1)
     plt.legend()
-    plt.savefig("/results/" + name)
+    plt.savefig("./results/" + name)
 
 def plot_one_experiments(log_folder, env_name, seed):
     log_file = log_folder + 'iter' + str(seed)

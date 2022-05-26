@@ -83,7 +83,7 @@ def parse_args():
     if 'delayed' in args.env:
         env_name = env_name + '_' + str(DELAY_FREQ)
     #args.log_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'log', env_name, 'P3S-TD3'))
-    args.log_dir = "/results/" + env_name + "/"
+    args.log_dir = "./results/" + env_name + "/"
     return args
 
 def run_experiment(variant):
@@ -152,7 +152,7 @@ def run_experiment(variant):
         save_full_state=False,
     )
 
-    algorithm._sess.run(tf.global_variables_initializer())
+    algorithm._sess.run(tf.compat.v1.global_variables_initializer())
 
     algorithm.train()
 
@@ -233,7 +233,7 @@ def _init_placeholder(env):
 def init_actor(actor, pool, dict_ph, env, num_q, value_fn_params, noise_params):
     M1 = value_fn_params['layer_size1']
     M2 = value_fn_params['layer_size2']
-    with tf.variable_scope(actor.name):
+    with tf.compat.v1.variable_scope(actor.name):
         policy = DeterministicPolicy(
             env_spec=env.spec,
             hidden_layer_sizes=(M1, M2),
