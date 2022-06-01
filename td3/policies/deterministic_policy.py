@@ -94,11 +94,8 @@ class DeterministicPolicy(NNPolicy, Serializable):
         if self._is_deterministic:
             return actions
         else:
-            noise = self._noise_scale * \
-                np.random.randn(actions.shape[0], actions.shape[1])
-            # edit noise
-            noisy_actions = actions + noise
-            # noisy_actions = np.clip(actions + noise, -self._max_actions, self._max_actions)
+            noise = self._noise_scale * np.random.randn(actions.shape[0], actions.shape[1])
+            noisy_actions = np.clip(actions + noise, -self._max_actions, self._max_actions)
 
             return noisy_actions
 

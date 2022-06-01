@@ -118,7 +118,7 @@ ALGORITHM_PARAMS_BASE = {
     'policy_update_interval': 2,
     'tau': 0.005,
     'num_actors':4,
-    'num_q':2,
+    'num_q':1,
     'beta':0.5,
     'with_best':True,
     'reparameterize':True,

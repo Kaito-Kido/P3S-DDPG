@@ -240,7 +240,7 @@ class P3S_TD3(MARLAlgorithm, Serializable):
     def _init_critic_update(self, actor):
         arr_target_qf_t = [
             target_qf.output_t for target_qf in actor.arr_target_qf]
-        # min_target_qf_t = tf.minimum(arr_target_qf_t[0], arr_target_qf_t[1])
+        min_target_qf_t = tf.minimum(arr_target_qf_t[0], arr_target_qf_t[1])
         min_target_qf_t = arr_target_qf_t[0]
 
         ys = tf.stop_gradient(self._dict_ph['rewards_ph'] +
@@ -343,9 +343,8 @@ class P3S_TD3(MARLAlgorithm, Serializable):
         self._sess.run(actor.qf_training_ops, feed_dict)
 
         # if iteration % self._policy_update_interval == 0:
-        if 1:
-            self._sess.run(actor.policy_training_ops, feed_dict)
-            self._sess.run(actor.target_ops)
+        self._sess.run(actor.policy_training_ops, feed_dict)
+        self._sess.run(actor.target_ops)
 
         oldkl_t = self._sess.run(actor.oldkl, feed_dict)
         oldkl_t = np.clip(oldkl_t, 1/10000, 10000)
@@ -366,7 +365,7 @@ class P3S_TD3(MARLAlgorithm, Serializable):
         noise = np.clip(self._target_noise_scale * np.random.randn(actions.shape[0], actions.shape[1]),
                         -self._target_noise_clip, self._target_noise_clip)
         # return np.clip(actions + noise, -self._max_actions, self._max_actions)
-        return actions + noise
+        return actions
 
     def _get_feed_dict(self, iteration, batch):
         """Construct TensorFlow feed_dict from sample batch."""
