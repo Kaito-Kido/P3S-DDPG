@@ -238,9 +238,10 @@ class P3S_TD3(MARLAlgorithm, Serializable):
                     self._arr_initial_exploration_policy)
 
     def _init_critic_update(self, actor):
-        arr_target_qf_t = [
-            target_qf.output_t for target_qf in actor.arr_target_qf]
-        min_target_qf_t = tf.minimum(arr_target_qf_t[0], arr_target_qf_t[1])
+        # arr_target_qf_t = [
+        #     target_qf.output_t for target_qf in actor.arr_target_qf]
+        # min_target_qf_t = tf.minimum(arr_target_qf_t[0], arr_target_qf_t[1])
+        arr_target_qf_t = actor.arr_target_qf[0].output_t
         min_target_qf_t = arr_target_qf_t[0]
 
         ys = tf.stop_gradient(self._dict_ph['rewards_ph'] +
